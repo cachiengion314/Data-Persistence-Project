@@ -12,26 +12,7 @@ public class MenuUIController : MonoBehaviour
 
   private void Start()
   {
-    SaveData data = GameManager.Instance.LoadGameFile();
-
-    List<GameInfo> Infomation = data.Infomations;
-    GameInfo game = null;
-    for (int i = 0; i < Infomation.Count; ++i)
-    {
-      GameInfo curr_game = Infomation[i];
-      if (game == null)
-      {
-        game = curr_game;
-        continue;
-      }
-      if (curr_game.UserScore > game?.UserScore)
-      {
-        game = curr_game;
-      }
-    }
-    string _text = $"best: {game?.UserName}: {game?.UserScore}";
-    Debug.Log(_text);
-    BestScore.text = _text;
+    BestScore.text = GameManager.Instance.BestScore;
   }
 
   public void QuitGame()

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
   public int CurrentScore;
   public string CurrentUserName;
 
+  public string BestScore;
+
   public MenuUIController menuUIController;
 
   private void Awake()
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
       Instance = this;
       DontDestroyOnLoad(gameObject);
     }
+
+    BestScore = _FindBestScore();
   }
 
   public void SaveGameFile()
@@ -49,6 +53,30 @@ public class GameManager : MonoBehaviour
     }
     return null;
   }
+
+  private string _FindBestScore()
+  {
+    SaveData data = LoadGameFile();
+
+    List<GameInfo> Infomation = data.Infomations;
+    GameInfo game = null;
+    for (int i = 0; i < Infomation.Count; ++i)
+    {
+      GameInfo curr_game = Infomation[i];
+      if (game == null)
+      {
+        game = curr_game;
+        continue;
+      }
+      if (curr_game.UserScore > game?.UserScore)
+      {
+        game = curr_game;
+      }
+    }
+    string _text = $"Best: {game?.UserName}: {game?.UserScore}";
+    return _text;
+  }
+
 
   [System.Serializable]
   public class GameInfo
